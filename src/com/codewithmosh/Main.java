@@ -6,9 +6,8 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        final byte MONTHS_IN_YEAR = 12;
-        final byte PERCENT = 100;
-        int principle;
+
+        int principal;
         float annualInterest;
         byte years;
 
@@ -16,8 +15,8 @@ public class Main {
 
         while (true) {
             System.out.println("Principal: ");
-            principle = scanner.nextInt();
-            if ((principle >= 1000) && (principle <= 1_000_000))
+            principal = scanner.nextInt();
+            if ((principal >= 1000) && (principal <= 1_000_000))
                 break;
             System.out.println("Enter a value between 1,000 and 1,000,000.");
         }
@@ -29,7 +28,7 @@ public class Main {
                 break;
             System.out.println("Enter a value greater than 0 and less than or equal to 30.");
         }
-        float monthlyInterest = annualInterest / PERCENT / MONTHS_IN_YEAR;
+
 
         while (true) {
             System.out.println("Period (Years): ");
@@ -39,13 +38,22 @@ public class Main {
             System.out.println("Enter a value greater than 0 and less than or equal to 30.");
         }
 
-        int numberOfPayments = years * MONTHS_IN_YEAR;
+        double mortgage = calculateMortgage(principal,annualInterest, years);
 
-        float payments = (float) Math.pow(1 + (monthlyInterest), numberOfPayments);
-
-        float mortgage = principle * ((monthlyInterest * payments) / (payments - 1));
         String mortgageFormatted = NumberFormat.getCurrencyInstance().format(mortgage);
 
         System.out.println("Mortgage: " + mortgageFormatted);
     }
+
+    public static double calculateMortgage(int principal, float annualInterest, byte years) {
+        final byte MONTHS_IN_YEAR = 12;
+        final byte PERCENT = 100;
+
+        float monthlyInterest = annualInterest / PERCENT / MONTHS_IN_YEAR;
+        short numberOfPayments = (short) (years * MONTHS_IN_YEAR);
+        float payments = (float) Math.pow(1 + (monthlyInterest), numberOfPayments);
+
+        return principal * ((monthlyInterest * payments) / (payments - 1));
+    }
+
 }
